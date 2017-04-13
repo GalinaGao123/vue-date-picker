@@ -22,7 +22,6 @@
 .datetime-picker .picker-wrap {
     position: absolute;
     z-index: 1000;
-    height: 280px;
     margin-top: 2px;
     background-color: #fff;
     box-shadow: 0 0 6px #ccc;
@@ -41,9 +40,15 @@
     border: 0 none;
 }
 
+.datetime-picker .date-head th {
+  background: #19beb8;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+  width: auto;
+}
 .datetime-picker th, .datetime-picker td {
     user-select: none;
-    width: 34px;
     height: 34px;
     padding: 0;
     border: 0 none;
@@ -65,19 +70,20 @@
 
 .datetime-picker td.date-active {
     background-color: #ececec;
-    color: #3bb4f2;
+    color: #19beb8;
 }
 
 .datetime-picker .date-head {
-    background-color: #3bb4f2;
+    background-color: #19beb8;
     text-align: center;
     color: #fff;
     font-size: 14px;
 }
 
-.datetime-picker .date-days {
-    color: #3bb4f2;
-    font-size: 14px;
+.datetime-picker .date-days th{
+  font-size: 14px;
+  font-weight: 700;
+  width: auto;
 }
 
 .datetime-picker .show-year {
@@ -95,13 +101,13 @@
 .datetime-picker .btn-next {
     cursor: pointer;
     display: inline-block;
-    padding: 0 10px;
+    padding: 0 5px;
     vertical-align: middle;
 }
 
 .datetime-picker .btn-prev:hover,
 .datetime-picker .btn-next:hover {
-    background: rgba(16, 160, 234, 0.5);
+    background: rgba(19, 208, 202, 0.5);
 }
 </style>
 
@@ -109,7 +115,6 @@
     <div class="datetime-picker">
         <input
             type="text"
-            :style="styleObj"
             :readonly="readonly"
             :value="value"
             @click="show = !show">
@@ -149,14 +154,15 @@
 export default {
   props: {
     readonly: { type: Boolean, default: false },
-    value: { type: String, default: '' },
+    time: { type: String, default: '' },
     format: { type: String, default: 'YYYY-MM-DD' }
   },
   data () {
     return {
+      value: this.time,
       show: false,
-      days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      days: ['日', '一', '二', '三', '四', '五', '六'],
+      months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
       date: [],
       now: new Date()
     }
@@ -227,6 +233,7 @@ export default {
       this.show = false
       this.now = new Date(this.date[index].time)
       this.value = this.stringify()
+      this.$emit('date', this.value)
     },
     parse (str) {
       var time = new Date(str)
@@ -256,7 +263,7 @@ export default {
       }
     }
   },
-  ready () {
+  mounted () {
     this.now = this.parse(this.value) || new Date()
     document.addEventListener('click', this.leave, false)
   },
