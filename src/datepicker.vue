@@ -140,9 +140,9 @@
                 <tbody>
                     <tr v-for="i in 6">
                         <td v-for="j in 7"
-                            :class="date[i * 7 + j] && date[i * 7 + j].status"
-                            :date="date[i * 7 + j] && date[i * 7 + j].date"
-                            @click="pickDate(i * 7 + j)">{{date[i * 7 + j] && date[i * 7 + j].text}}</td>
+                            :class="date[(i -1) * 7 + (j - 1)] && date[(i -1) * 7 + (j - 1)].status"
+                            :date="date[(i -1) * 7 + (j - 1)] && date[(i -1) * 7 + (j - 1)].date"
+                            @click="pickDate((i -1) * 7 + (j - 1))">{{date[(i -1) * 7 + (j - 1)] && date[(i -1) * 7 + (j - 1)].text}}</td>
                     </tr>
                 </tbody>
             </table>
